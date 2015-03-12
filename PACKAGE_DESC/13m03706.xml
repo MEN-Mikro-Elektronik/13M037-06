@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Klaus Popp (MEN Mikro Elektronik GmbH) -->
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="packagedesc.xsd">
+	<name>13m03706</name>
+	<description>MDIS5 driver package for MEN M37 M-Module</description>
+	<date>2014-07-14</date>
+	<revision>2.2</revision>
+	<docroot>DRIVERS/MDIS_LL/M037/DOC/main.html</docroot>
+	<modellist>
+		<model>
+			<hwname>M37</hwname>
+			<description>4 x 16 Bit Analog Outputs</description>
+			<devtype>MDIS</devtype>
+			<autoid>
+				<mmoduleid>0x53460025</mmoduleid>
+			</autoid>
+			<busif>M-Module</busif>
+		</model>
+	</modellist>
+	<settinglist>
+		<setting>
+			<name>ID_CHECK</name>
+			<description>Define wether M-Module ID-PROM is checked</description>
+			<type>U_INT32</type>
+			<defaultvalue>1</defaultvalue>
+			<choises>
+				<choise>
+					<value>1</value>
+					<description>enable</description>
+				</choise>
+				<choise>
+					<value>0</value>
+					<description>disable -- ignore IDPROM</description>
+				</choise>
+			</choises>
+		</setting>
+		<setting>
+			<name>PLD_LOAD</name>
+			<description>Define wether PLD is to be loaded at INIT</description>
+			<type>U_INT32</type>
+			<defaultvalue>1</defaultvalue>
+			<choises>
+				<choise>
+					<value>1</value>
+					<description>load PLD</description>
+				</choise>
+				<choise>
+					<value>0</value>
+					<description>don't load PLD</description>
+				</choise>
+			</choises>
+		</setting>
+		<setting>
+			<name>EXT_TRIG</name>
+			<description>defines if the conversion cycle is started with internal or external trigger</description>
+			<type>U_INT32</type>
+			<defaultvalue>0</defaultvalue>
+			<choises>
+				<choise>
+					<value>0</value>
+					<description>internal trigger</description>
+				</choise>
+				<choise>
+					<value>1</value>
+					<description>external trigger</description>
+				</choise>
+			</choises>
+		</setting>
+		<settingsubdir>
+			<name>OUT_BUF</name>
+			<setting>
+				<name>MODE</name>
+				<description>buffer mode</description>
+				<type>U_INT32</type>
+				<defaultvalue>0</defaultvalue>
+				<choises>
+					<choise>
+						<value>0</value>
+						<description>USER controlled buffer</description>
+					</choise>
+					<choise>
+						<value>2</value>
+						<description>MDIS controlled ring buffer</description>
+					</choise>
+				</choises>
+			</setting>
+			<setting>
+				<name>SIZE</name>
+				<description>buffer size in bytes, must be a multiple of 8</description>
+				<type>U_INT32</type>
+				<defaultvalue>160</defaultvalue>
+			</setting>
+			<setting>
+				<name>TIMEOUT</name>
+				<description>buffer timeout in ms</description>
+				<type>U_INT32</type>
+				<defaultvalue>1000</defaultvalue>
+			</setting>
+			<setting>
+				<name>LOWWATER</name>
+				<description>buffer low water mark, must be a multiple of 8</description>
+				<type>U_INT32</type>
+				<defaultvalue>8</defaultvalue>
+			</setting>
+		</settingsubdir>
+		<debugsetting mbuf="true"/>
+	</settinglist>
+	<swmodulelist>
+		<swmodule>
+			<name>m37</name>
+			<description>Driver for M37</description>
+			<type>Low Level Driver</type>
+			<makefilepath>M037/DRIVER/COM/driver.mak</makefilepath>
+		</swmodule>
+		<swmodule>
+			<name>m37_simp</name>
+			<description>Simple example program for the M37 driver</description>
+			<type>Driver Specific Tool</type>
+			<makefilepath>M037/EXAMPLE/M37_SIMP/COM/program.mak</makefilepath>
+		</swmodule>
+		<swmodule>
+			<name>m37_blkwrite</name>
+			<description>Configure and write M37 output channels, blockwise</description>
+			<type>Driver Specific Tool</type>
+			<makefilepath>M037/TOOLS/M37_BLKWRITE/COM/program.mak</makefilepath>
+		</swmodule>
+		<swmodule>
+			<name>m37_write</name>
+			<description>Configure and write one value to one M37 channel</description>
+			<type>Driver Specific Tool</type>
+			<makefilepath>M037/TOOLS/M37_WRITE/COM/program.mak</makefilepath>
+		</swmodule>
+	</swmodulelist>
+</package>

@@ -1,0 +1,74 @@
+Program Description
+===================
+Wed Jun  2 14:31:54  1999
+ 
+Overview of all Programs
+------------------------
+
+m37_simp         - M37 simple example
+m37_blkwrite     - Configure and write M37 channels
+m37_write        - Configure and write to M37 channel
+
+Program m37_simp
+----------------
+
+Usage:
+   m37_simp <device> <chan>
+
+Function:
+   M37 simple example
+
+Options:
+   device       device name   
+   chan         channel number (0..n)   
+   
+Description:
+   Simple example program for the M37 driver    
+   
+Program m37_blkwrite
+--------------------
+
+Usage:
+   m37_blkwrite [<opts>] <device> [<opts>]
+
+Function:
+   Configure and write M37 channels
+
+Options:
+   device       device name .......................... [none]   
+   -b=<mode>    block i/o mode ....................... [0]   
+                 0 = M_BUF_USRCTRL (without -i option)   
+                 2 = M_BUF_RINGBUF (whith -t and -i option)   
+   -o=<msec>    block write timeout [msec] (0=none) .. [Default->Descriptor]   
+   -d=<val>     Volt output for channel 0 ............ [0]   
+   -e=<val>     Volt output for channel 1 ............ [0]   
+   -f=<val>     Volt output for channel 2 ............ [0]   
+   -g=<val>     Volt output for channel 3 ............ [0]   
+   -s           generate waveform for enabled channels [no]   
+   -t           extern trigger mode .................. [intern]   
+   -i           interrupt enable (whith -b=2 and -t option) [no]   
+   -h           install buffer lowwater signal ....... [no]   
+   -l           loop mode ............................ [no]   
+   -w           wait for close path .................. [no]   
+   
+Description:
+   Configure and write M37 output channels (blockwise)   
+   
+Program m37_write
+-----------------
+
+Usage:
+   m37_write [<opts>] <device> <value> [<opts>]
+
+Function:
+   Configure and write to M37 channel
+
+Options:
+   device       device name                 [none]   
+   -v=<Volts>   Voltage output              [0]   
+   -c=<chan>    channel number (0..3)       [0]   
+   -l           loop mode                   [no]   
+   
+Description:
+   Configure and write one value to one M37 channel   
+   

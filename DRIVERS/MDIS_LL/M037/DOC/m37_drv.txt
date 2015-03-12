@@ -1,0 +1,556 @@
+Function Description
+====================
+Wed Jun  2 14:31:48  1999
+ 
+Overview of all Functions
+-------------------------
+
+M37_GetEntry           - Initialize driver's jump table 
+M37_Init               - Allocate and return low-level handle, initialize hardware 
+M37_Exit               - De-initialize hardware and clean up memory 
+M37_Read               - Read a value from the device 
+M37_Write              - Write a value to the device 
+M37_SetStat            - Set the driver status 
+M37_GetStat            - Get the driver status 
+M37_BlockRead          - Read a data block from the device 
+M37_BlockWrite         - Write a data block to the device 
+M37_Irq                - Interrupt service routine 
+M37_Info               - Get information about hardware and driver requirements. 
+Ident                  - Return ident string 
+Cleanup                - Close all handles, free memory and return error code 
+PldLoad                - Loading PLD with binary data. 
+ 
+
+Function M37_GetEntry()
+-----------------------
+
+Syntax:
+    void M37_GetEntry( LL_ENTRY* drvP )
+
+Description:
+    Initialize driver's jump table
+
+Input:
+    ---
+
+Output:
+    drvP  pointer to the initialized jump table structure
+
+
+Function M37_Init()
+-------------------
+
+Syntax:
+    static int32 M37_Init(
+        DESC_SPEC       *descP,
+        OSS_HANDLE      *osHdl,
+        MACCESS         *ma,
+        OSS_SEM_HANDLE  *devSemHdl,
+        OSS_IRQ_HANDLE  *irqHdl,
+        LL_HANDLE       **llHdlP
+    )
+
+Description:
+    Allocate and return low-level handle, initialize hardware
+
+    The function initializes all channels with the
+    definitions made in the descriptor. The interrupt
+    is disabled. The values of the channels are set to 0V.
+
+    The following descriptor keys are used:
+
+    Descriptor key        Default          Range
+    --------------------  ---------------  -------------
+    DEBUG_LEVEL_DESC      OSS_DBG_DEFAULT  see dbg.h
+    DEBUG_LEVEL_MBUF      OSS_DBG_DEFAULT  see dbg.h
+    DEBUG_LEVEL           OSS_DBG_DEFAULT  see dbg.h
+    ID_CHECK              1                0..1 
+    PLD_LOAD              1                0..1 
+    EXT_TRIG              0                0..1
+    OUT_BUF/SIZE          160              8..max   
+    OUT_BUF/MODE          0                0 | 2
+    OUT_BUF/TIMEOUT       1000             0..max 
+    OUT_BUF/LOWWATER      8                0..max
+
+    PLD_LOAD defines if the PLD is loaded at INIT.
+    With PLD_LOAD disabled, ID_CHECK is implicitly disabled.
+    (This key is intended for test purposes and should always be
+    set to 1.)
+
+    EXT_TRIG defines if the transfer cycle is initiated by
+    an internal or external trigger.
+       0 = internal trigger
+       1 = external trigger
+
+    OUT_BUF/SIZE defines the size of the output buffer [bytes]
+    (multiple of 8).
+
+    OUT_BUF/MODE defines the buffer mode (see MDIS User Guide).
+       0 = M_BUF_USRCTRL
+       2 = M_BUF_RINGBUF
+
+    OUT_BUF/TIMEOUT defines the buffer write timeout [msec].
+       (0 = no timeout)   (see MDIS User Guide)
+
+    OUT_BUF/LOWWATER defines the buffer level [bytes] of the
+    corresponding lowwater buffer event (0 or multiple of 8).
+       (see MDIS User Guide)
+
+Input:
+    descSpec   pointer to descriptor data
+    osHdl      oss handle
+    ma         hw access handle
+    devSemHdl  device semaphore handle
+    irqHdl     irq handle
+    llHdlP     pointer to the variable where low-level driver
+               handle will be stored
+
+Output:
+    *llHdlP    low-level driver handle | NULL if fails
+    return     success (0) or error code
+
+
+Function M37_Exit()
+-------------------
+
+Syntax:
+    static int32 M37_Exit(
+       LL_HANDLE    **llHdlP
+    )
+
+Description:
+    De-initialize hardware and clean up memory
+
+    The interrupt and trigger are disabled.
+    The function deinitializes all channels by setting them
+    to 0V.
+    The configuration register is set to 0.
+
+Input:
+    llHdlP   pointer to low-level driver handle
+
+Output:
+    *llHdlP  NULL
+    return   success (0) or error code
+
+
+Function M37_Read()
+-------------------
+
+Syntax:
+    static int32 M37_Read(
+        LL_HANDLE *llHdl,
+        int32 ch,
+        int32 *valueP
+    )
+
+Description:
+    Read a value from the device
+
+    The function is not supported and always returns an 
+    ERR_LL_ILL_FUNC error.
+
+Input:
+    llHdl    low-level handle
+    ch       current channel
+
+Output:
+    valueP   read value
+    return   success (0) or error code
+
+
+Function M37_Write()
+--------------------
+
+Syntax:
+    static int32 M37_Write(
+        LL_HANDLE *llHdl,
+        int32 ch,
+        int32 value
+    )
+
+Description:
+    Write a value to the device
+
+    The function writes the lower word of the value to the 
+    current channel. The external trigger must be disabled.
+
+    The alternating buffer principle on the hardware is not 
+    transparent to the application. Changing one channel doesn't 
+    affect the others. The values are stored in llHdl.
+
+    When power supply to the analog circuit fails while waiting 
+    for BUFRDY, an error is reported.
+
+Input:
+    llHdl    low-level handle
+    ch       current channel
+    value    value to write 
+
+Output:
+    return   success (0) or error code
+
+
+Function M37_SetStat()
+----------------------
+
+Syntax:
+    static int32 M37_SetStat(
+        LL_HANDLE *llHdl,
+        int32  code,
+        int32  ch,
+        INT32_OR_64 value32_or_64
+    )
+
+Description:
+    Set the driver status
+
+    The following status codes are supported:
+
+    Code                 Description                Values
+    -------------------  -------------------------  ----------
+    M_LL_DEBUG_LEVEL     driver debug level         see dbg.h
+    M_MK_IRQ_ENABLE      interrupt enable           0..1
+    M_LL_IRQ_COUNT       interrupt counter          0..max
+    M_LL_CH_DIR          direction of current       M_CH_OUT
+                         channel
+    M_BUF_WR_MODE        mode of write buffer       M_BUF_USRCTRL,
+                                                    M_BUF_RINGBUF
+    -------------------  -------------------------  ----------
+    M37_EXT_TRIG         defines the trigger mode   0..1
+
+    M_MK_IRQ_ENABLE enables/disables the interrupt.
+
+        0 = interrupt disable
+        1 = interrupt enable
+
+    This function only enables a flag. The interrupt on the
+    hardware is enabled before data is written to the output
+    buffer (M_BUF_RINGBUF) through M37_BlockWrite. The interrupt
+    on hardware is disabled in the ISR when all values have been
+    written to the M37 M-Module. The flag remains enabled.
+    Disabling the flag in SetStat also disables the interrupt
+    on the hardware.
+
+    The interrupt can only be enabled when the trigger is in external
+    mode and M_BUF_WR_MODE is in M_BUF_RINGBUF mode.
+
+    M_BUF_WR_MODE sets the mode of the write buffer.
+        M_BUF_USRCTRL      0
+        M_BUF_RINGBUF      2
+    For setting M_BUF_WR_MODE to M_BUF_USRCTRL the interrupt 
+    must be disabled.
+
+    M37_EXT_TRIG defines the trigger mode:
+        0 = internal trigger
+        1 = external trigger
+    The trigger mode can only be disabled when the interrupt is
+    disabled.
+
+Input:
+    llHdl			   low-level handle
+    code			   status code
+    ch				   current channel
+    value32_or_64      data or
+					   pointer to block data structure (M_SG_BLOCK)  (*)
+    (*) = for block status codes
+
+Output:
+    return     success (0) or error code
+
+
+Function M37_GetStat()
+----------------------
+
+Syntax:
+    static int32 M37_GetStat(
+        LL_HANDLE *llHdl,
+        int32  code,
+        int32  ch,
+        INT32_OR_64 *value32_or_64P
+    )
+
+Description:
+    Get the driver status
+
+    The following status codes are supported:
+
+    Code                 Description                Values
+    -------------------  -------------------------  ----------
+    M_LL_DEBUG_LEVEL     driver debug level         see dbg.h
+    M_LL_CH_NUMBER       number of channels         4
+    M_LL_CH_DIR          direction of curr. ch.     M_CH_OUT
+    M_LL_CH_LEN          length of curr. ch. [bits] 16
+    M_LL_CH_TYP          description of curr. ch.   M_CH_ANALOG
+    M_LL_IRQ_COUNT       interrupt counter          0..max
+    M_LL_ID_CHECK        EEPROM is checked          0..1
+    M_LL_ID_SIZE         EEPROM size [bytes]        128
+    M_LL_BLK_ID_DATA     EEPROM raw data            -
+    M_MK_BLK_REV_ID      ident function table ptr   -
+    -------------------  -------------------------  ----------
+    M37_EXT_TRIG         defines the trigger mode   0..1
+                          0 = internal trigger
+                          1 = external trigger
+    M37_PWR_SUPPL        power supply to analog     0..1 
+                         circuit
+                          0 = analog part is not supplied
+                          1 = analog part is supplied
+
+Input:
+    llHdl			   low-level handle
+    code			   status code
+    ch				   current channel
+    value32_or_64P     pointer to block data structure (M_SG_BLOCK)  (*) 
+    (*) = for block status codes
+
+Output:
+    value32_or_64P     data pointer or
+					   pointer to block data structure (M_SG_BLOCK)  (*) 
+    return			   success (0) or error code
+    (*) = for block status codes
+
+
+Function M37_BlockRead()
+------------------------
+
+Syntax:
+    static int32 M37_BlockRead(
+         LL_HANDLE *llHdl,
+         int32     ch,
+         void      *buf,
+         int32     size,
+         int32     *nbrRdBytesP
+    )
+
+Description:
+    Read a data block from the device
+
+    The function is not supported and always returns an 
+    ERR_LL_ILL_FUNC error.
+
+Input:
+    llHdl        low-level handle
+    ch           current channel
+    buf          data buffer
+    size         data buffer size
+
+Output:
+    nbrRdBytesP  number of read bytes
+    return       success (0) or error code
+
+
+Function M37_BlockWrite()
+-------------------------
+
+Syntax:
+    static int32 M37_BlockWrite(
+         LL_HANDLE *llHdl,
+         int32     ch,
+         void      *buf,
+         int32     size,
+         int32     *nbrWrBytesP
+    )
+
+Description:
+    Write a data block to the device
+
+    The following block modes are supported:
+      M_BUF_USRCTRL     direct output
+      M_BUF_RINGBUF     buffered output via ISR
+    (can be defined through M_BUF_WR_MODE setstat)
+
+    Direct Output (M_BUF_USRCTRL)
+    -----------------------------
+    The function writes all channels out of the given data
+    buffer (8 bytes). The external trigger must be disabled.
+    When power supply to the analog circuit fails while waiting 
+    for BUFRDY, an error is reported.
+
+    +---------------+
+    | word 0 chan 0 |
+    +---------------+
+    | word 1 chan 1 |
+    +---------------+
+    | word 2 chan 2 |
+    +---------------+
+    | word 3 chan 3 |
+    +---------------+
+
+    Buffered Output (M_BUF_RINGBUF)
+    -------------------------------
+    The function copies the given data buffer to an output
+    buffer when the interrupt is enabled.
+    The buffer is written to the channels in ISR.
+    The power supply to the analog circuit is not verified.   
+
+    +---------------+
+    | word 0 chan 0 |
+    +---------------+
+    | word 1 chan 1 |
+    +---------------+
+    | word 2 chan 2 |
+    +---------------+
+    | word 3 chan 3 |
+    +---------------+
+    | word 4 chan 0 |
+    +---------------+
+    |      ...      |
+    +---------------+
+    | word n chan 3 |
+    +---------------+
+
+Input:
+    llHdl        low-level handle
+    ch           current channel
+    buf          data buffer
+    size         data buffer size
+
+Output:
+    nbrWrBytesP  number of written bytes
+    return       success (0) or error code
+
+
+Function M37_Irq()
+------------------
+
+Syntax:
+    static int32 M37_Irq(
+       LL_HANDLE *llHdl
+    )
+
+Description:
+    Interrupt service routine
+
+    When the interrupt is enabled, it is triggered at the end 
+    of conversion cycle.
+
+    4 words from the output buffer are written to the 4 channels:
+
+    +---------------+
+    | word 0 chan 0 |
+    +---------------+
+    | word 1 chan 1 |
+    +---------------+
+    | word 2 chan 2 |
+    +---------------+
+    | word 3 chan 3 |
+    +---------------+
+
+    When all values have been written, the last values are
+    written again and the interrupt is disabled on the hardware.
+    If the output buffer is empty and not all of the user data passed
+    to M37_BlockWrite was written, the last values are written until
+    the output buffer is filled again.
+
+Input:
+    llHdl    low-level handle
+
+Output:
+    return   LL_IRQ_DEVICE    irq caused by device
+             LL_IRQ_DEV_NOT   irq not caused by device
+
+
+Function M37_Info()
+-------------------
+
+Syntax:
+    static int32 M37_Info(
+       int32  infoType,
+       ...
+    )
+
+Description:
+    Get information about hardware and driver requirements.
+
+    The following info codes are supported:
+
+    Code                      Description
+    ------------------------  -----------------------------
+    LL_INFO_HW_CHARACTER      hardware characteristics
+    LL_INFO_ADDRSPACE_COUNT   nr of required address spaces
+    LL_INFO_ADDRSPACE         address space information
+    LL_INFO_IRQ               interrupt required
+    LL_INFO_LOCKMODE          process lock mode required
+
+    The LL_INFO_HW_CHARACTER code returns all address and 
+    data modes (ORed) which are supported by the hardware
+    (MDIS_MAxx, MDIS_MDxx).
+
+    The LL_INFO_ADDRSPACE_COUNT code returns the number
+    of address spaces used by the driver.
+
+    The LL_INFO_ADDRSPACE code returns information about one
+    specific address space (MDIS_MAxx, MDIS_MDxx). The returned
+    data mode represents the widest hardware access used by
+    the driver.
+
+    The LL_INFO_IRQ code returns whether the driver supports an
+    interrupt routine (TRUE or FALSE).
+
+    The LL_INFO_LOCKMODE code returns which process locking
+    mode is required by the driver (LL_LOCK_xxx).
+
+Input:
+    infoType     info code
+    ...          argument(s)
+
+Output:
+    return       success (0) or error code
+
+
+Function Ident()
+----------------
+
+Syntax:
+    static char* Ident( void )
+
+Description:
+    Return ident string
+
+Input:
+    -
+
+Output:
+    return  pointer to ident string
+
+
+Function Cleanup()
+------------------
+
+Syntax:
+    static int32 Cleanup(
+       LL_HANDLE    *llHdl,
+       int32        retCode
+    )
+
+Description:
+    Close all handles, free memory and return error code
+    NOTE: The low-level handle is invalid after this function is
+          called.
+
+Input:
+    llHdl      low-level handle
+    retCode    return value
+
+Output:
+    return     retCode
+
+
+Function PldLoad()
+------------------
+
+Syntax:
+    static void PldLoad(
+        LL_HANDLE *llHdl
+    )
+
+Description:
+    Loading PLD with binary data.
+    - binary data is stored in field 'M37_PldData'
+
+Input:
+    llHdl     low-level handle
+
+Output:
+    ---
+

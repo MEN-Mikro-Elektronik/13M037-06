@@ -1107,7 +1107,7 @@ static int32 M37_BlockWrite(
     DBGCMD( static const char functionName[] = "LL - M37_BlockWrite"; )
 	u_int32		n;
 	int32		error, bufMode;
-    u_int16		*bufP = (u_int16*) buf;
+	u_int16		*bufP = (u_int16*) buf;
 	u_int16		helpreg;
 
 	DBGWRT_1((DBH, "%s: ch=%d, size=%d\n", functionName,ch,size));
@@ -1141,7 +1141,7 @@ static int32 M37_BlockWrite(
 				return(ERR_LL_DEV_NOTRDY);
 			}
 		} while (!(helpreg & BUFRDY));
-		*nbrWrBytesP = (u_int32)bufP - (u_int32)buf;
+		*nbrWrBytesP = (int32)(bufP - (u_int16*)buf);
 	}
 	/*-------------------------+
 	| fill output buffer       |

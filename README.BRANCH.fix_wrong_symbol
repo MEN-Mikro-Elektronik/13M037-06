@@ -1,0 +1,22 @@
+
+I spotted this symbol mismatch accidentally when searching the full MDIS source tree for M36 symbols.
+Since I do not have time to build and verify this fix I will just add it as a branch.
+Whoever works next on this driver, please incorporate it.
+
+C.Zoz
+
+-----------------------------------------------------------------------------
+
+diff --git a/DRIVERS/MDIS_LL/M037/TOOLS/M37_BLKWRITE/COM/m37_blkwrite.c b/DRIVERS/MDIS_LL/M037/TOOLS/M37_BLKWRITE/COM/m37_blkwrite.c
+index 7dd3c83..24a54d3 100755
+--- a/DRIVERS/MDIS_LL/M037/TOOLS/M37_BLKWRITE/COM/m37_blkwrite.c
++++ b/DRIVERS/MDIS_LL/M037/TOOLS/M37_BLKWRITE/COM/m37_blkwrite.c
+@@ -298,7 +298,7 @@ int main(int argc, char *argv[])
+ 	}
+ 	/* set trigger mode */
+ 	if ((M_setstat(path, M37_EXT_TRIG, trig)) < 0) {
+-		PrintError("setstat M36_EXT_TRIG");
++		PrintError("setstat M37_EXT_TRIG");
+ 		goto abort;
+ 	}
+ 	/* get number of channels */

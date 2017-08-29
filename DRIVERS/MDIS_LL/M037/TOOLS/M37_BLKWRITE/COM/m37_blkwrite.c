@@ -298,7 +298,7 @@ int main(int argc, char *argv[])
 	}
 	/* set trigger mode */
 	if ((M_setstat(path, M37_EXT_TRIG, trig)) < 0) {
-		PrintError("setstat M36_EXT_TRIG");
+		PrintError("setstat M37_EXT_TRIG");
 		goto abort;
 	}
 	/* get number of channels */

@@ -36,8 +36,6 @@
  * (c) Copyright 2010 by MEN mikro elektronik GmbH, Nuernberg, Germany 
  ****************************************************************************/
  
-static const char RCSid[]="$Id: m37_simp.c,v 1.5 2010/04/23 14:06:30 amorbach Exp $";
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -97,8 +95,6 @@ static int32 _m37_simp(char *device, int32 chan)
     printf("\n");
 	printf("m37_simp - simple example program for the M37 module\n");
     printf("====================================================\n\n");
-
-    printf("%s\n\n", RCSid);
 
 	/*--------------------+
     |  open path          |

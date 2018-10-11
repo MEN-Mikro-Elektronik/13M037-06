@@ -40,8 +40,6 @@
  * (c) Copyright 2010 by MEN mikro elektronik GmbH, Nuernberg, Germany 
  ****************************************************************************/
  
-static const char RCSid[]="$Id: m37_blkwrite.c,v 1.6 2010/04/23 14:06:33 amorbach Exp $";
-
 #include <stdio.h>
 #include <stdlib.h>
 

@@ -17,8 +17,6 @@
  * (c) Copyright 1998 by MEN mikro elektronik GmbH, Nuernberg, Germany 
  ****************************************************************************/
  
-static const char RCSid[]="$Id: m37_pld.c,v 1.1 1999/05/11 14:31:52 Schoberl Exp $";
-
 #include <MEN/men_typs.h>   /* system dependend definitions   */
 #include "m37_pld.h"		/* local prototypes */
 

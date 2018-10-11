@@ -33,8 +33,6 @@
  * (c) Copyright 2010 by MEN mikro elektronik GmbH, Nuernberg, Germany 
  ****************************************************************************/
  
-static const char RCSid[]="$Id:";
-
 #include <stdio.h>
 #include <stdlib.h>
 

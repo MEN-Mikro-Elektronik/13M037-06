@@ -76,8 +76,6 @@
  * (c) Copyright 2010 by MEN Mikro Elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
 
-static const char RCSid[]="$Id: m37_drv.c,v 1.9 2014/07/14 16:18:03 MRoth Exp $";
-
 #define _NO_LL_HANDLE		/* ll_defs.h: don't define LL_HANDLE structure */
 
 #include <MEN/men_typs.h>   /* system dependent definitions   */

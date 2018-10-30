@@ -33,48 +33,23 @@
  *     Required: ---
  *     Switches: _ONE_NAMESPACE_PER_DRIVER_
  *
- *-------------------------------[ History ]---------------------------------
- *
- * $Log: m37_drv.c,v $
- * Revision 1.9  2014/07/14 16:18:03  MRoth
- * R: m_open caused segmentation fault under 64bit OS
- * M: fixed m_read function according to MDIS5 porting guide v0.9
- *
- * Revision 1.8  2010/04/23 14:06:16  amorbach
- * R: Porting to MDIS5
- * M: changed according to MDIS Porting Guide 0.8
- *
- * Revision 1.7  2007/10/15 17:58:37  ts
- * added support for recognizing an M37N ID too (0x7d25)
- *
- * Revision 1.6  2004/04/15 16:37:43  cs
- * Minor modifications for MDIS4/2004 conformity
- *       moved swapped access defines to m37_drv.h
- *       changed datatype of n in M37_GetStat/M_LL_BLK_ID_DATA from
- * 	      from u_int32 to u_int8
- *
- * Revision 1.5  1999/06/02 14:07:35  kp
- * fixed M37_Ident() function
- *
- * Revision 1.4  1999/06/02 11:56:48  Schoberl
- * cosmetics
- * added: SetStat M_BUF_WR_LOWWATER check for valid value
- *
- * Revision 1.3  1999/05/12 16:38:20  Schoberl
- * changed: interrupt source is recognized (module or not)
- * allocated mbuf buffer is freed in cleanup
- *
- * Revision 1.2  1999/05/12 11:22:27  Franke
- * cosmetics
- * changed: default MBUF Low Water is 8 instead of 4 now
- * 	M37_Exit now always calls Cleanup
- *
- * Revision 1.1  1999/05/11 14:31:49  Schoberl
- * Initial Revision
- *
  *---------------------------------------------------------------------------
  * (c) Copyright 2010 by MEN Mikro Elektronik GmbH, Nuernberg, Germany
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #define _NO_LL_HANDLE		/* ll_defs.h: don't define LL_HANDLE structure */
 

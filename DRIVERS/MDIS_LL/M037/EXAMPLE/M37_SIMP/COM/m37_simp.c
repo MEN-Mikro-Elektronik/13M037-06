@@ -13,28 +13,23 @@
  *     Required: libraries: mdis_api, usr_oss
  *     Switches: -
  *
- *-------------------------------[ History ]---------------------------------
- *
- * $Log: m37_simp.c,v $
- * Revision 1.5  2010/04/23 14:06:30  amorbach
- * R: Porting to MDIS5
- * M: changed according to MDIS Porting Guide 0.8
- *
- * Revision 1.4  1999/07/21 14:11:45  Franke
- * cosmetics
- *
- * Revision 1.3  1999/06/02 14:08:54  kp
- * include stdlib.h
- *
- * Revision 1.2  1999/05/12 11:22:30  Franke
- * cosmetics
- *
- * Revision 1.1  1999/05/11 14:32:01  Schoberl
- * Initial Revision
- *
  *---------------------------------------------------------------------------
  * (c) Copyright 2010 by MEN mikro elektronik GmbH, Nuernberg, Germany 
  ****************************************************************************/
+/*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
  
 #include <stdio.h>
 #include <stdlib.h>

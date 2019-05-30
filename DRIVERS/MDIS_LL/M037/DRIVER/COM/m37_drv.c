@@ -1,11 +1,9 @@
 /*********************  P r o g r a m  -  M o d u l e ***********************
  *
  *         Name: m37_drv.c
- *      Project: M37 module driver (MDIS V4.x)
+ *      Project: M37 module driver 
  *
  *       Author: ls
- *        $Date: 2014/07/14 16:18:03 $
- *    $Revision: 1.9 $
  *
  *  Description: Low-level driver for M37 M-Modules
  *
@@ -137,6 +135,8 @@ typedef struct {
 /* include files which need LL_HANDLE */
 #include <MEN/ll_entry.h>   /* low-level driver jump table  */
 #include <MEN/m37_drv.h>   /* M37 driver header file */
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*-----------------------------------------+
 |  PROTOTYPES                              |

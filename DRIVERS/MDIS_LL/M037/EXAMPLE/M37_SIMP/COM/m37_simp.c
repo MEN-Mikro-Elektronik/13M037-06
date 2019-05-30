@@ -5,8 +5,6 @@
  ****************************************************************************
  *  
  *       Author: ls
- *        $Date: 2010/04/23 14:06:30 $
- *    $Revision: 1.5 $
  *
  *  Description: Simple example program for the M37 driver 
  *                      
@@ -39,6 +37,8 @@
 #include <MEN/mdis_err.h>
 #include <MEN/usr_oss.h>
 #include <MEN/m37_drv.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*--------------------------------------+
 |   PROTOTYPES                          |

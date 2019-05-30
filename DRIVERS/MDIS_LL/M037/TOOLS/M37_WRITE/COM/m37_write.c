@@ -5,8 +5,6 @@
  ****************************************************************************
  *  
  *       Author: ls
- *        $Date: 2010/04/23 14:06:36 $
- *    $Revision: 1.4 $
  *
  *  Description: Configure and write one value to one M37 channel
  *
@@ -40,6 +38,8 @@
 #include <MEN/mdis_api.h>
 #include <MEN/m37_drv.h>
 
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
+
 /*--------------------------------------+
 |   PROTOTYPES                          |
 +--------------------------------------*/
@@ -65,7 +65,7 @@ static void usage(void)
 	printf("    -c=<chan>    channel number (0..3)       [0]\n");
 	printf("    -l           loop mode                   [no]\n");
 	printf("\n");
-	printf("(c) 1999 by MEN mikro elektronik GmbH\n\n");
+	printf("Copyright (c) 2010-2019, MEN Mikro Elektronik GmbH\n%s\n", IdentString);
 }
 
 /********************************* main *************************************

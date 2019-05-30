@@ -1,11 +1,9 @@
 /*********************  P r o g r a m  -  M o d u l e ***********************
  *  
  *         Name: m37_pld.c
- *      Project: M37 module driver (MDIS V4.x)
+ *      Project: M37 module driver 
  *
  *       Author: ls
- *        $Date: 1999/05/11 14:31:52 $
- *    $Revision: 1.1 $
  *
  *  Description: PLD data array and ident function
  *                      
@@ -32,6 +30,8 @@
 */
  
 #include <MEN/men_typs.h>   /* system dependend definitions   */
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #include "m37_pld.h"		/* local prototypes */
 
 /* M37_PldIdent: return ident string */

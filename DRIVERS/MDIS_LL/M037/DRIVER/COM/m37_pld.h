@@ -3,8 +3,6 @@
  *         Name: m37_pld.h
  *
  *       Author: ls
- *        $Date: 2004/04/15 16:37:45 $
- *    $Revision: 1.2 $
  * 
  *  Description: Prototypes for PLD data array and ident function
  *                      

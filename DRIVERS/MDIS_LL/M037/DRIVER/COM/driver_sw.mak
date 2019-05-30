@@ -1,8 +1,6 @@
 #***************************  M a k e f i l e  *******************************
 #
 #         Author: ls
-#          $Date: 2004/04/15 16:37:51 $
-#      $Revision: 1.1 $
 #
 #    Description: Makefile definitions for the M37 driver, swapped variant
 #
@@ -23,8 +21,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MAK_NAME=m37_sw
+# the next line is updated during the MDIS installation
+STAMPED_REVISION="13M037-06_02_04-1-gdf175da-dirty_2019-05-10"
+
+DEF_REVISION=MAK_REVISION=$(STAMPED_REVISION)
 
 MAK_SWITCH=$(SW_PREFIX)MAC_MEM_MAPPED \
+		$(SW_PREFIX)$(DEF_REVISION) \
                    $(SW_PREFIX)MAC_BYTESWAP \
                    $(SW_PREFIX)ID_SW
 

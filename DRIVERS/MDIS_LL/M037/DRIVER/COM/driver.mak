@@ -1,8 +1,6 @@
 #***************************  M a k e f i l e  *******************************
 #
 #         Author: ls
-#          $Date: 1999/06/02 12:01:56 $
-#      $Revision: 1.2 $
 #
 #    Description: Makefile definitions for the M37 driver
 #
@@ -23,6 +21,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MAK_NAME=m37
+# the next line is updated during the MDIS installation
+STAMPED_REVISION="13M037-06_02_04-1-gdf175da-dirty_2019-05-10"
+
+DEF_REVISION=MAK_REVISION=$(STAMPED_REVISION)
 
 MAK_LIBS=$(LIB_PREFIX)$(MEN_LIB_DIR)/desc$(LIB_SUFFIX)     \
          $(LIB_PREFIX)$(MEN_LIB_DIR)/mbuf$(LIB_SUFFIX)     \
@@ -30,7 +32,8 @@ MAK_LIBS=$(LIB_PREFIX)$(MEN_LIB_DIR)/desc$(LIB_SUFFIX)     \
          $(LIB_PREFIX)$(MEN_LIB_DIR)/id$(LIB_SUFFIX)      \
          $(LIB_PREFIX)$(MEN_LIB_DIR)/dbg$(LIB_SUFFIX)     \
 
-MAK_SWITCH=$(SW_PREFIX)MAC_MEM_MAPPED
+MAK_SWITCH=$(SW_PREFIX)MAC_MEM_MAPPED \
+		$(SW_PREFIX)$(DEF_REVISION)
 
 MAK_INCL=$(MEN_INC_DIR)/m37_drv.h     \
          $(MEN_INC_DIR)/men_typs.h    \

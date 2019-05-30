@@ -5,8 +5,6 @@
  ****************************************************************************
  *  
  *       Author: ls
- *        $Date: 2010/04/23 14:06:33 $
- *    $Revision: 1.6 $
  *
  *  Description: Configure and write M37 output channels (blockwise)
  *
@@ -39,6 +37,8 @@
 #include <MEN/usr_utl.h>
 #include <MEN/mdis_api.h>
 #include <MEN/m37_drv.h>
+
+static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 
 /*--------------------------------------+
 |   DEFINES                             |
@@ -88,7 +88,7 @@ static void usage(void)
 	printf("    -l           loop mode ............................ [no]\n");
 	printf("    -w           wait for close path .................. [no]\n");
 	printf("\n");
-	printf("(c) 1999 by MEN mikro elektronik GmbH\n\n");
+	printf("Copyright (c) 2010-2019, MEN Mikro Elektronik GmbH\n%s\n", IdentString);
 }
 
 /********************************* main *************************************

@@ -3,8 +3,6 @@
  *         Name: m37_drv.h
  *
  *       Author: ls
- *        $Date: 2010/04/23 14:08:00 $
- *    $Revision: 2.4 $
  *
  *  Description: Header file for M37 driver
  *               - M37 specific status codes

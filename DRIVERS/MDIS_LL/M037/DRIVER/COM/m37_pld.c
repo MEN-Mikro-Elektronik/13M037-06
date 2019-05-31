@@ -31,7 +31,6 @@
  
 #include <MEN/men_typs.h>   /* system dependend definitions   */
 
-static const char IdentString[]=MENT_XSTR(MAK_REVISION);
 #include "m37_pld.h"		/* local prototypes */
 
 /* M37_PldIdent: return ident string */

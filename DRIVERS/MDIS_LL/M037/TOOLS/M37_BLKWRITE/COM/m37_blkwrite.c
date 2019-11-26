@@ -12,7 +12,7 @@
  *     Switches: -
  *
  *---------------------------------------------------------------------------
- * Copyright (c) 2010-2019, MEN Mikro Elektronik GmbH
+ * Copyright 2010-2019, MEN Mikro Elektronik GmbH
  ****************************************************************************/
 /*
 * This program is free software: you can redistribute it and/or modify
@@ -88,7 +88,7 @@ static void usage(void)
 	printf("    -l           loop mode ............................ [no]\n");
 	printf("    -w           wait for close path .................. [no]\n");
 	printf("\n");
-	printf("Copyright (c) 2010-2019, MEN Mikro Elektronik GmbH\n%s\n", IdentString);
+	printf("Copyright 2010-2019, MEN Mikro Elektronik GmbH\n%s\n", IdentString);
 }
 
 /********************************* main *************************************
